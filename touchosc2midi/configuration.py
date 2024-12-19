@@ -9,7 +9,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
-VIRT_MIDI_PORT = "TouchOSC Bridge"
+CLIENT = "TouchOSC Bridge"
 
 
 class ConfigurationError(Exception):
@@ -74,8 +74,8 @@ def configure_ioports(backend, virtual=True, mido_in=None, mido_out=None):
     if virtual:
         try:
             # we have to init with dummy callback, there seems to be a bug in mido
-            midi_in = backend.open_input(VIRT_MIDI_PORT, virtual=True, callback=lambda x: x)
-            midi_out = backend.open_output(VIRT_MIDI_PORT, virtual=True)
+            midi_in = backend.open_input("In", client_name=CLIENT, virtual=True, callback=lambda x: x)
+            midi_out = backend.open_output("Out", client_name=CLIENT, virtual=True)
         except ImportError:
             log.error("Cannot open virtual IOports. Make sure, rtmidi is available"
                       "or choose another backend.")
